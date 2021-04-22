@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Title </title>
+  </head>
+  <body>
+    <div align="center">
+      <form method="post" action="{% url 'registration' %}" >
+        {% csrf_token %}
+        <h3> SIGN UP </h3>
+        <div class="form-group">
+            <label for="username"> Username: </label>
+            <br>
+            <input type="text" name="username" id="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="password"> Password: </label>
+            <br>
+            <input type="text" name="password" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <input type="submit" value="SIGN UP">
+        </div>
+        {% if invalid%}
+            <p> Этот пароль недостаточно надежный! </p>
+            <p>Пожалуйста, убедитесь, что ваш пароль соответствует следующим требованиям:<p>
+            <ol>
+                <li>строка содержит хотя бы одно число;</li>
+                <li>строка содержит хотя бы одну латинскую букву в нижнем регистре;</li>
+                <li>строка содержит хотя бы одну латинскую букву в верхнем регистре;</li>
+                <li>строка состоит не менее, чем из 6 вышеупомянутых символов.</li>
+            </ol>
+        {% endif %}
+      </form>
+    </div>
+  </body>
+</html>
