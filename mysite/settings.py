@@ -25,7 +25,7 @@ SECRET_KEY = 'ig%4m34(=nqq@g$l)+n5m7s^8j844i3a6m042unj&50g4408tf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_profile',
-    'rest_framework'
+    'rest_framework',
+    'frontend'
 ]
 
 MIDDLEWARE = [
@@ -120,3 +121,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

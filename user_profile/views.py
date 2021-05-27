@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from .serializator import UserSerializer, UserSerializeDetails
+from .serializator import UserSerializer, UserSerializeDetails, CycleSerializer, CycleSerializerDetail, BoostSerializer
 from rest_framework import generics
-import re
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import MainCycle, Boost
+import services
 
 
 class UserList(generics.ListAPIView):
@@ -16,52 +17,34 @@ class UserDetails(generics.RetrieveAPIView):
     serializer_class = UserSerializeDetails
 
 
-def index(request):
-    user = User.objects.filter(id=request.user.id)
-    if len(user) != 0:
-        return render(request, 'index.html', {'user': user[0]})
-    else:
-        return redirect('login')
+class CycleList(generics.ListAPIView):
+    queryset = MainCycle.objects.all()
+    serializer_class = CycleSerializer
 
 
-def user_login(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return render(request, 'index.html', {'user': user})
-        else:
-            return render(request, 'login.html', {'invalid': True})
-    else:
-        return render(request, 'login.html', {'invalid': False})
+class CycleDetail(generics.RetrieveAPIView):
+    queryset = MainCycle.objects.all()
+    serializer_class = CycleSerializerDetail
 
 
-def user_logout(request):
-    logout(request)
-    return redirect('login')
+class BoostList(generics.ListAPIView):
+    queryset = Boost
+    serializer_class = BoostSerializer
+
+    def get_queryset(self):
+        return Boost.objects.filter(mainCycle=self.kwargs['mainCycle'])
 
 
-def user_registration(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        existing_user = User.objects.filter(username=username)
-        if len(existing_user) == 0:
-            password = request.POST["password"]
-            if not check_password_safety(password):
-                return render(request, 'registration.html', {'invalid': True})
-            user = User.objects.create_user(username, '', password)
-            user.save()
-            user = authenticate(request, username=username, password=password)
-            login(request, user)
-            return render(request, 'index.html', {'user': user})
-        else:
-            return render(request, 'registration.html', {'invalid': True})
-    else:
-        return render(request, 'registration.html', {'invalid': False})
+@api_view(['POST'])
+def buyBoost(request):
+    click_power, coins_count, level, price = services.clicker_services.buy_boost(request)
+    return Response({'clickPower': click_power,
+                     'coinsCount': coins_count,
+                     'level': level,
+                     'price': price})
 
 
-def check_password_safety(password):
-    pattern_password = re.compile(r'^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{6,}$')
-    return pattern_password.match(password)
+@api_view(['GET'])
+def callClick(request):
+    data = services.clicker_services.call_click(request)
+    return Response(data)
