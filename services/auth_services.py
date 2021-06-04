@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from user_profile.models import MainCycle
 from user_profile.forms import UserForm

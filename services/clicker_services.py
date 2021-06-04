@@ -12,7 +12,7 @@ def main_page(request):
         return True, 'login', {}
 
 
-def callClick(request):
+def call_click(request):
     mainCycle = MainCycle.objects.get(user=request.user)
     is_level_up = mainCycle.Click()
     boosts_query = Boost.objects.filter(mainCycle=mainCycle)
@@ -26,7 +26,7 @@ def callClick(request):
              "boosts": None})
 
 
-def buyBoost(request):
+def buy_boost(request):
     boost_level = request.data['boost_level']
     cycle = MainCycle.objects.get(user=request.user)
     boost = Boost.objects.get_or_create(mainCycle=cycle, level=boost_level)[0]

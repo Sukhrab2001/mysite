@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserSerializeDetails(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password']
+        fields = ['id', 'username', 'cycle']
 
 
 class CycleSerializer(serializers.ModelSerializer):

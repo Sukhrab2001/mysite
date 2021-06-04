@@ -1,9 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
-from user_profile.forms import UserForm
-from user_profile.models import MainCycle
 import services
 import re
 
@@ -32,4 +27,3 @@ def user_registration(request):
     if relocate:
         return redirect(template)
     return render(request, template, params)
-
