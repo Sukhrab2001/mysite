@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 import services
-import re
 
 
 def index(request):

@@ -80,15 +80,17 @@ function render_all_boosts(boosts){
 
 function render_boost(parent, boost){
   let boost_class = 'boost-holder'
+  let boost_img = 'https://voronezh.migmar.ru/wp-content/uploads/2019/12/avtotovary.png'
   if (boost.level % 3 == 0){
       boost_class = 'auto-boost'
+      boost_img = 'https://static.wikia.nocookie.net/bechtern/images/8/84/22_snotrod.jpg/revision/latest?cb=20141227143113&path-prefix=ru'
   }
   const div = document.createElement('div')
   div.setAttribute('class', 'boost-holder')
   div.setAttribute('id', `boost-holder-${boost.level}`)
   div.innerHTML = `
   <div class=${boost_class} id="boost-holder">
-    <input id="buy" type="image" class="button boost" src="https://voronezh.migmar.ru/wp-content/uploads/2019/12/avtotovary.png" onclick="buyBoost(${boost.level})" />
+    <input id="buy" type="image" class="button boost" src="${boost_img}" onclick="buyBoost(${boost.level})" />
     <p> Level: <div id="boostLevel"> ${boost.level} </div> </p>
     <p> Power: <div id="boostPower"> ${boost.power} </div></p>
     <p> Price: <div id="boostPrice"> ${boost.price} </div></p>
